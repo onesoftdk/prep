@@ -19,4 +19,3 @@ end
 install_utilities
 configure_remote
 create_first_branches
-`start_new_exercise`
