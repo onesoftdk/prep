@@ -39,25 +39,26 @@ namespace prep.collections
 
     public IEnumerable<Movie> all_movies_published_by_pixar()
     {
-      foreach (var movie in movies)
-      {
-        if (movie.production_studio == ProductionStudio.Pixar)
-          yield return movie;
-      }
+      IList<ProductionStudio> studios = new List<ProductionStudio> { ProductionStudio.Pixar };
+      return all_movies_by_studio(studios);
     }
 
     public IEnumerable<Movie> all_movies_published_by_pixar_or_disney()
     {
-      IList<ProductionStudio> studios = new List<ProductionStudio>
-      {ProductionStudio.Pixar, ProductionStudio.Disney};
-      foreach (var movie in movies)
-      {
-        if (studios.Contains(movie.production_studio))
-          yield return movie;
-      }
+        IList<ProductionStudio> studios = new List<ProductionStudio>{ProductionStudio.Pixar, ProductionStudio.Disney};
+        return all_movies_by_studio(studios);
     }
 
-    public IEnumerable<Movie> sort_all_movies_by_title_ascending()
+      private IEnumerable<Movie> all_movies_by_studio(IList<ProductionStudio> studios)
+      {
+          foreach (var movie in movies)
+          {
+              if (studios.Contains(movie.production_studio))
+                  yield return movie;
+          }
+      }
+
+      public IEnumerable<Movie> sort_all_movies_by_title_ascending()
     {
       var list = new List<Movie>(movies);
 
