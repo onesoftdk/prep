@@ -19,11 +19,9 @@ namespace prep.collections
       return movies.one_at_a_time();
     }
 
-
     public void add(Movie movie)
     {
       if (this.movies.Contains(movie)) return;
-
 
       this.movies.Add(movie);
     }
@@ -39,26 +37,30 @@ namespace prep.collections
 
     public IEnumerable<Movie> all_movies_published_by_pixar()
     {
-      IList<ProductionStudio> studios = new List<ProductionStudio> { ProductionStudio.Pixar };
-      return all_movies_by_studio(studios);
+      return all_movies_matching(movie => movie.production_studio == ProductionStudio.Pixar);
+    }
+
+    bool is_published_by_pixar(Movie movie)
+    {
+      throw new NotImplementedException();
     }
 
     public IEnumerable<Movie> all_movies_published_by_pixar_or_disney()
     {
-        IList<ProductionStudio> studios = new List<ProductionStudio>{ProductionStudio.Pixar, ProductionStudio.Disney};
-        return all_movies_by_studio(studios);
+      return
+        all_movies_matching(
+          movie =>
+            movie.production_studio == ProductionStudio.Disney || movie.production_studio == ProductionStudio.Pixar);
     }
 
-      private IEnumerable<Movie> all_movies_by_studio(IList<ProductionStudio> studios)
-      {
-          foreach (var movie in movies)
-          {
-              if (studios.Contains(movie.production_studio))
-                  yield return movie;
-          }
-      }
+    public delegate bool MovieCondition(Movie movie);
 
-      public IEnumerable<Movie> sort_all_movies_by_title_ascending()
+    IEnumerable<Movie> all_movies_matching(MovieCondition condition)
+    {
+      return movies.all_items_matching()
+    }
+
+    public IEnumerable<Movie> sort_all_movies_by_title_ascending()
     {
       var list = new List<Movie>(movies);
 
