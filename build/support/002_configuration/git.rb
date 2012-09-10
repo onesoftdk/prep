@@ -1,7 +1,7 @@
 configs ={
   :git => {
     :user => '20120910uk',
-    :remotes => %w/developwithpassion/,
+    :remotes => %w/developwithpassion jjmatthews onesoftdk mortenraschcoop/,
     :repo => 'prep' 
   }
 }
