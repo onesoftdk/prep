@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using prep.utility;
+using System.Linq;
 
 namespace prep.collections
 {
@@ -35,29 +36,12 @@ namespace prep.collections
       return list;
     }
 
-    public IEnumerable<Movie> all_movies_published_by_pixar()
-    {
-      return all_movies_matching(movie => movie.production_studio == ProductionStudio.Pixar);
-    }
-
-    bool is_published_by_pixar(Movie movie)
-    {
-      throw new NotImplementedException();
-    }
-
     public IEnumerable<Movie> all_movies_published_by_pixar_or_disney()
     {
       return
-        all_movies_matching(
+        movies.all_items_matching(
           movie =>
             movie.production_studio == ProductionStudio.Disney || movie.production_studio == ProductionStudio.Pixar);
-    }
-
-    public delegate bool MovieCondition(Movie movie);
-
-    IEnumerable<Movie> all_movies_matching(MovieCondition condition)
-    {
-        return movies.all_items_matching(condition.Invoke);
     }
 
     public IEnumerable<Movie> sort_all_movies_by_title_ascending()
@@ -69,44 +53,9 @@ namespace prep.collections
       return list;
     }
 
-    public IEnumerable<Movie> sort_all_movies_by_movie_studio_and_year_published()
+    public IEnumerable<Movie> all_movies_published_by_pixar()
     {
-      var list = new Dictionary<ProductionStudio, List<Movie>>();
-
-      //MGM
-      //Pixar
-      //Dreamworks
-      //Universal
-      //Disney
-      list.Add(ProductionStudio.MGM, new List<Movie>());
-      list.Add(ProductionStudio.Pixar, new List<Movie>());
-      list.Add(ProductionStudio.Dreamworks, new List<Movie>());
-      list.Add(ProductionStudio.Universal, new List<Movie>());
-      list.Add(ProductionStudio.Disney, new List<Movie>());
-
-      //list.Add(ProductionStudio.Paramount, new List<Movie>());
-
-      foreach (var movie in movies)
-      {
-        if (movie.production_studio == ProductionStudio.Paramount)
-          continue;
-
-        var aktuelleListe = list[movie.production_studio];
-        aktuelleListe.Add(movie);
-      }
-
-      foreach (var keyValuePair in list)
-      {
-        keyValuePair.Value.Sort(delegate(Movie movie, Movie movie1)
-        {
-          return DateTime.Compare(movie.date_published, movie1.date_published);
-        });
-
-        foreach (var movie in keyValuePair.Value)
-        {
-          yield return movie;
-        }
-      }
+      return movies.all_items_matching(movie => movie.production_studio == ProductionStudio.Pixar);
     }
 
     public IEnumerable<Movie> all_movies_not_published_by_pixar()
@@ -152,6 +101,46 @@ namespace prep.collections
       {
         if (movie.genre == Genre.action)
           yield return movie;
+      }
+    }
+
+    public IEnumerable<Movie> sort_all_movies_by_movie_studio_and_year_published()
+    {
+      var list = new Dictionary<ProductionStudio, List<Movie>>();
+
+      //MGM
+      //Pixar
+      //Dreamworks
+      //Universal
+      //Disney
+      list.Add(ProductionStudio.MGM, new List<Movie>());
+      list.Add(ProductionStudio.Pixar, new List<Movie>());
+      list.Add(ProductionStudio.Dreamworks, new List<Movie>());
+      list.Add(ProductionStudio.Universal, new List<Movie>());
+      list.Add(ProductionStudio.Disney, new List<Movie>());
+
+      //list.Add(ProductionStudio.Paramount, new List<Movie>());
+
+      foreach (var movie in movies)
+      {
+        if (movie.production_studio == ProductionStudio.Paramount)
+          continue;
+
+        var aktuelleListe = list[movie.production_studio];
+        aktuelleListe.Add(movie);
+      }
+
+      foreach (var keyValuePair in list)
+      {
+        keyValuePair.Value.Sort(delegate(Movie movie, Movie movie1)
+        {
+          return DateTime.Compare(movie.date_published, movie1.date_published);
+        });
+
+        foreach (var movie in keyValuePair.Value)
+        {
+          yield return movie;
+        }
       }
     }
 

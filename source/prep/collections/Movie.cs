@@ -1,4 +1,5 @@
 using System;
+using prep.utility;
 
 namespace prep.collections
 {
@@ -30,6 +31,22 @@ namespace prep.collections
     public override int GetHashCode()
     {
       return title.GetHashCode();
+    }
+
+    public static IMatchAn<Movie> is_in_genre(Genre genre)
+    {
+      return new IsInGenre(genre);
+    }
+
+    public static IMatchAn<Movie> is_published_by(ProductionStudio studio)
+    {
+      return new IsPublishedBy(studio);
+    }
+
+    public static IMatchAn<Movie> is_published_by_pixar_or_disney()
+    {
+      return is_published_by(ProductionStudio.Pixar).
+        or(is_published_by(ProductionStudio.Disney));
     }
   }
 }
