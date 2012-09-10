@@ -57,7 +57,7 @@ namespace prep.collections
 
     IEnumerable<Movie> all_movies_matching(MovieCondition condition)
     {
-      return movies.all_items_matching()
+        return movies.all_items_matching(condition.Invoke);
     }
 
     public IEnumerable<Movie> sort_all_movies_by_title_ascending()
