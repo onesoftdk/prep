@@ -12,17 +12,19 @@ namespace prep.collections
 
     public override string ToString()
     {
-        return title + ":" + production_studio + ":" + date_published;
+      return title + ":" + production_studio + ":" + date_published;
     }
 
     public bool Equals(Movie other)
     {
-      return this.title.Equals(other.title);
+      if (other == null) return false;
+
+      return ReferenceEquals(this, other) || this.title.Equals(other.title);
     }
 
     public override bool Equals(object obj)
     {
-      return this.Equals(obj as Movie);      
+      return this.Equals(obj as Movie);
     }
 
     public override int GetHashCode()
