@@ -9,5 +9,10 @@ namespace prep.collections
     public Genre genre { get; set; }
     public int rating { get; set; }
     public DateTime date_published { get; set; }
+
+    public override string ToString()
+    {
+        return title + ":" + production_studio + ":" + date_published;
+    }
   }
 }
