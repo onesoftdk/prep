@@ -38,7 +38,9 @@ namespace prep.utility.filtering
 
     public IMatchAn<Item> between(PropertyType start,PropertyType end)
     {
-      throw new NotImplementedException();
+        return new AnonymousMatch<Item>(x => accessor(x).CompareTo(start) >= 0 && accessor(x).CompareTo(end) <= 0);
+
+        //return { greater_than(start) && !greater_than(end) }
     }
   }
 }
