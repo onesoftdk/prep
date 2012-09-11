@@ -17,7 +17,8 @@ namespace prep.utility.filtering
 
     public IMatchAn<Item> greater_than(PropertyType value)
     {
-      return new AnonymousMatch<Item>(x => accessor(x).CompareTo(value) > 0);
+        return FactoryFactory<Item>.CreateAnonymousMatch(x => accessor(x).CompareTo(value) > 0);
+      //return new AnonymousMatch<Item>(x => accessor(x).CompareTo(value) > 0);
     }
 
     public IMatchAn<Item> equal_to(PropertyType value)
@@ -37,7 +38,8 @@ namespace prep.utility.filtering
 
     public IMatchAn<Item> between(PropertyType start, PropertyType end)
     {
-      return new AnonymousMatch<Item>(x => accessor(x).CompareTo(start) >= 0 && accessor(x).CompareTo(end) <= 0);
+        return FactoryFactory<Item>.CreateAnonymousMatch(x => accessor(x).CompareTo(start) >= 0 && accessor(x).CompareTo(end) <= 0);
+      //return new AnonymousMatch<Item>(x => accessor(x).CompareTo(start) >= 0 && accessor(x).CompareTo(end) <= 0);
     }
   }
 }
