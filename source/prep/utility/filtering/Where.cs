@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using prep.collections;
 
 namespace prep.utility.filtering
 {
@@ -6,32 +8,34 @@ namespace prep.utility.filtering
 
   public class Where<Item>
   {
-    public static PropertyAccessor<Item, PropertyType> has_a<PropertyType>(PropertyAccessor<Item, PropertyType> accessor)
+    public static MatchFactory<Item, PropertyType> has_a<PropertyType>(PropertyAccessor<Item, PropertyType> accessor)
     {
-      return accessor;
+      return new MatchFactory<Item, PropertyType>(accessor);
     }
   }
 
-  public static class SimpleMatching
+  public class MatchFactory<Item, PropertyType>
   {
-    public static IMatchAn<Item> equal_to<Item, PropertyType>(this PropertyAccessor<Item, PropertyType> accessor,
-                                                              PropertyType value_to_equal)
+    PropertyAccessor<Item, PropertyType> accessor;
+
+    public MatchFactory(PropertyAccessor<Item, PropertyType> accessor)
     {
-       return new AnonymousMatch<Item>(item => accessor.Invoke(item).Equals(value_to_equal));
+      this.accessor = accessor;
     }
-  }
-  public class AnonymousMatch<Item> : IMatchAn<Item>
-  {
-      Condition<Item> condition;
 
-      public AnonymousMatch(Condition<Item> condition)
-      {
-          this.condition = condition;
-      }
+    public IMatchAn<Item> equal_to(PropertyType value)
+    {
+      return equal_to_any(value);
+    }
 
-      public bool matches(Item item)
-      {
-          return condition(item);
-      }
+    public IMatchAn<Item> equal_to_any(params PropertyType[] values)
+    {
+      return new AnonymousMatch<Item>(x => new List<PropertyType>(values).Contains(accessor(x)));
+    }
+
+    public IMatchAn<Item> not_equal_to(PropertyType value)
+    {
+      throw new NotImplementedException();
+    }
   }
 }
