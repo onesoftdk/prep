@@ -68,6 +68,8 @@
     <Compile Include="utility\Condition.cs" />
     <Compile Include="utility\EnumerableExtensions.cs" />
     <Compile Include="utility\filtering\AnonymousMatch.cs" />
+    <Compile Include="utility\filtering\MatchFactory.cs" />
+    <Compile Include="utility\filtering\NegatingMatch.cs" />
     <Compile Include="utility\filtering\NeverMatches.cs" />
     <Compile Include="utility\IMatchAn.cs" />
     <Compile Include="utility\MatchExtensions.cs" />

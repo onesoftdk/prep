@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using prep.collections;
 
 namespace prep.utility.filtering
 {
@@ -12,30 +10,26 @@ namespace prep.utility.filtering
     {
       return new MatchFactory<Item, PropertyType>(accessor);
     }
+
+    public static ComparableMatchFactory<Item, PropertyType> has_an<PropertyType>(
+      PropertyAccessor<Item, PropertyType> accessor) where PropertyType : IComparable<PropertyType>
+    {
+      return new ComparableMatchFactory<Item, PropertyType>(accessor);
+    }
   }
 
-  public class MatchFactory<Item, PropertyType>
+  public class ComparableMatchFactory<Item, PropertyType> where PropertyType : IComparable<PropertyType>
   {
     PropertyAccessor<Item, PropertyType> accessor;
 
-    public MatchFactory(PropertyAccessor<Item, PropertyType> accessor)
+    public ComparableMatchFactory(PropertyAccessor<Item, PropertyType> accessor)
     {
       this.accessor = accessor;
     }
 
-    public IMatchAn<Item> equal_to(PropertyType value)
+    public IMatchAn<Item> greater_than(PropertyType value)
     {
-      return equal_to_any(value);
-    }
-
-    public IMatchAn<Item> equal_to_any(params PropertyType[] values)
-    {
-      return new AnonymousMatch<Item>(x => new List<PropertyType>(values).Contains(accessor(x)));
-    }
-
-    public IMatchAn<Item> not_equal_to(PropertyType value)
-    {
-        return new AnonymousMatch<Item>(x => !accessor(x).Equals(value));
+      throw new NotImplementedException();
     }
   }
 }
