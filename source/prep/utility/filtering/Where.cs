@@ -17,35 +17,4 @@ namespace prep.utility.filtering
       return new ComparableMatchFactory<Item, PropertyType>(accessor);
     }
   }
-
-  public class ComparableMatchFactory<Item, PropertyType> where PropertyType : IComparable<PropertyType>
-  {
-    PropertyAccessor<Item, PropertyType> accessor;
-
-    public ComparableMatchFactory(PropertyAccessor<Item, PropertyType> accessor)
-    {
-      this.accessor = accessor;
-    }
-
-    public IMatchAn<Item> greater_than(PropertyType value)
-    {
-        return new ComparableMatch<Item, PropertyType>(x => accessor(x).CompareTo(value) > 0); 
-    }
-  }
-
-  public class ComparableMatch<Item, PropertyType> : IMatchAn<Item> where PropertyType : IComparable<PropertyType>
-    {
-      readonly Condition<Item> condition;
-
-
-      public ComparableMatch(Condition<Item> condition)
-      {
-          this.condition = condition;
-      }
-
-      public bool matches(Item item)
-      {
-          return condition(item);
-      }
-    }
 }
