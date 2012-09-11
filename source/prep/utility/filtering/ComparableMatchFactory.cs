@@ -1,17 +1,19 @@
 using System;
-using System.Collections.Generic;
+using prep.collections;
 
 namespace prep.utility.filtering
 {
-  public class ComparableMatchFactory<Item, PropertyType> where PropertyType : IComparable<PropertyType>
+  public class ComparableMatchFactory<Item, PropertyType>
+    : ICreateMatchers<Item, PropertyType> where PropertyType : IComparable<PropertyType>
   {
     PropertyAccessor<Item, PropertyType> accessor;
-      private MatchFactory<Item, PropertyType> matchFactory;
+    ICreateMatchers<Item, PropertyType> match_factory;
 
-    public ComparableMatchFactory(PropertyAccessor<Item, PropertyType> accessor)
+    public ComparableMatchFactory(PropertyAccessor<Item, PropertyType> accessor,
+                                  ICreateMatchers<Item, PropertyType> original_factory)
     {
       this.accessor = accessor;
-        this.matchFactory = new MatchFactory<Item, PropertyType>(accessor);
+      this.match_factory = original_factory;
     }
 
     public IMatchAn<Item> greater_than(PropertyType value)
@@ -21,17 +23,22 @@ namespace prep.utility.filtering
 
     public IMatchAn<Item> equal_to(PropertyType value)
     {
-        return matchFactory.equal_to_any(value);
-    }
-
-    public IMatchAn<Item> not_equal_to(PropertyType value)
-    {
-        return matchFactory.equal_to_any(value).not();
+      return match_factory.equal_to(value);
     }
 
     public IMatchAn<Item> equal_to_any(params PropertyType[] values)
     {
-        return matchFactory.equal_to_any(values);
+      return match_factory.equal_to_any(values);
+    }
+
+    public IMatchAn<Item> not_equal_to(PropertyType value)
+    {
+      return match_factory.not_equal_to(value);
+    }
+
+    public IMatchAn<Item> between(PropertyType start,PropertyType end)
+    {
+      throw new NotImplementedException();
     }
   }
 }

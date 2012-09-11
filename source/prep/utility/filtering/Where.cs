@@ -14,7 +14,7 @@ namespace prep.utility.filtering
     public static ComparableMatchFactory<Item, PropertyType> has_an<PropertyType>(
       PropertyAccessor<Item, PropertyType> accessor) where PropertyType : IComparable<PropertyType>
     {
-      return new ComparableMatchFactory<Item, PropertyType>(accessor);
+      return new ComparableMatchFactory<Item, PropertyType>(accessor,has_a(accessor));
     }
   }
 }

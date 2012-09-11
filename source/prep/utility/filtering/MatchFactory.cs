@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace prep.utility.filtering
 {
-  public class MatchFactory<Item, PropertyType>
+  public class MatchFactory<Item, PropertyType> : ICreateMatchers<Item, PropertyType>
   {
     PropertyAccessor<Item, PropertyType> accessor;
 
