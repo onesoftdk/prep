@@ -35,7 +35,7 @@ namespace prep.utility.filtering
 
     public IMatchAn<Item> not_equal_to(PropertyType value)
     {
-      throw new NotImplementedException();
+        return new AnonymousMatch<Item>(x => !accessor(x).Equals(value));
     }
   }
 }
