@@ -29,7 +29,23 @@ namespace prep.utility.filtering
 
     public IMatchAn<Item> greater_than(PropertyType value)
     {
-      throw new NotImplementedException();
+        return new ComparableMatch<Item, PropertyType>(x => accessor(x).CompareTo(value) > 0); 
     }
   }
+
+  public class ComparableMatch<Item, PropertyType> : IMatchAn<Item> where PropertyType : IComparable<PropertyType>
+    {
+      readonly Condition<Item> condition;
+
+
+      public ComparableMatch(Condition<Item> condition)
+      {
+          this.condition = condition;
+      }
+
+      public bool matches(Item item)
+      {
+          return condition(item);
+      }
+    }
 }
